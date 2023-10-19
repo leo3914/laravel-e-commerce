@@ -97,7 +97,7 @@
         </div>
       </nav>
 
-      <div class="my-5 pt-5">
+      <div class="">
         @yield('content')
       </div>
 </body>
