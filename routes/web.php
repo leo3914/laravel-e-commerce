@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +35,5 @@ Route::middleware('auth', 'user-access:1')->group(function(){
     Route::get('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
     Route::get('/admin/role-form', [HomeController::class, 'roleForm'])->name('role.form');
     Route::post('/admin/add-role', [HomeController::class, 'addRole'])->name('add.role');
+    Route::get('/admin/add-product', [ProductController::class, 'addProduct'])->name('product.form');
 });

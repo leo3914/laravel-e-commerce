@@ -99,7 +99,7 @@
             <i class="fa-solid fa-cash-register ms-4 me-2"></i>
             Product Management
           </a>
-          <a href="" class="text-dark page-link">
+          <a href="{{ route('product.form') }}" class="text-dark page-link">
             <small><i class="fa-solid fa-cash-register ms-5 mt-3 me-2"></i>
             Add Product</small>
           </a>
@@ -134,7 +134,7 @@
             Order Management
           </a>
 
-          <a href="{{ route('role.form') }}" class="text-dark fw-bold page-link">
+          <a href="{{ route('role.form') }}" class="text-dark fw-bold page-link mt-3">
             <i class="fa-solid fa-gauge ms-4 me-2"></i>
             Role Management
           </a>
