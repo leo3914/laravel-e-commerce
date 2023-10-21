@@ -48,14 +48,14 @@
                         <img src="{{ asset('images/' . explode(',', $product->product_photo)[0]) }}" class="card-img-top"
                             alt="..." height="200px">
                         <div class="card-body text-center bg-light">
-                            {{-- @if ($product->created_at->format('Y-m-d') >= date('Y-m-d', strtotime('-5days')))
+                            @if ($product->created_at->format('Y-m-d') >= date('Y-m-d', strtotime('-5days')))
                                 <span class="badge bg-warning rounded-pill">New</span>
-                            @endif --}}
-                            {{-- @if ($product->discount_price)
-                                <span class="badge bg-success rounded-pill">
-                                    {{ round(100 - ($product->discount_price / $product->price) * 100, 2) }} % off
+                            @endif
+                            @if ($product->discount_price)
+                                <span class="badge bg-success rounded-pill text-xxl">
+                                    {{ round(100 - $product->discount_price/$product->price * 100, 2) }} % off
                                 </span>
-                            @endif --}}
+                            @endif
                             <span class="badge bg-danger rounded-pill">Best Seller</span>
                             <h6 class="card-title">{{ $product->name }}</h6>
                             @if ($product->discount_price)
@@ -65,7 +65,7 @@
                             @else
                                 <p class="card-text"><small>{{ $product->price }}</small></p>
                             @endif
-                            {{-- <a href="{{ route('product.detail', $product->id) }}" class="btn btn-primary btn-sm">Buy Item</a> --}}
+                            <a href="{{ route('product.detail', $product->id) }}" class="btn btn-primary btn-sm">Buy Item</a>
                         </div>
                     </div>
                 </div>

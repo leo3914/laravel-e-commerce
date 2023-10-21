@@ -14,6 +14,14 @@ class ProductController extends Controller
         return view('index',compact('products','categories'));
     }
 
+    public function detail($id)
+    {
+        // $available_product = Qcs::where
+        $product = Product::find($id);
+        $qcs = Qcs::all();
+        return view('detail',compact('product','qcs'));
+    }
+
     public function productForm()
     {
         $categories = Category::all();

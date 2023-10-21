@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,7 @@ use App\Http\Controllers\ProductController;
 Auth::routes();
 
 Route::get('/', [ProductController::class, 'index'])->name('index');
+Route::get('/product-detail/{id}' ,[ProductController::class, 'detail'])->name('product.detail');
 
 // users
 Route::middleware('auth', 'user-access:0')->group(function(){
