@@ -11,15 +11,18 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $products = Product::all();
+        Product::where('expire_date','<=',date('Y-m-d'))->update(['discount_price' => 0]);
         return view('index',compact('products','categories'));
     }
 
     public function detail($id)
     {
-        // $available_product = Qcs::where
+        $available_products = Qcs::where('product_id',$id)->where('quantity','!=',0)->get();
         $product = Product::find($id);
+        $categories = Category::all();
+        $products = Product::all();
         $qcs = Qcs::all();
-        return view('detail',compact('product','qcs'));
+        return view('detail',compact('product','qcs','available_products','categories','products'));
     }
 
     public function productForm()

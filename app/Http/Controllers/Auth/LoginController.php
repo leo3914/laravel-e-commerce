@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -52,5 +54,12 @@ class LoginController extends Controller
         }else{
             return back();
         }
+    }
+
+    public function showLoginForm()
+    {
+        $categories = Category::all();
+        $products = Product::all();
+        return view('auth.login',compact('categories','products'));
     }
 }

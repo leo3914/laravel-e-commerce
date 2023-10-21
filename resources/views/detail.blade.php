@@ -10,12 +10,11 @@
 			    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
 			  </div>
 			  <div class="carousel-inner">
-			    <div class="carousel-item active">
-			      <img src="images/iphone1.jpg" class="d-block w-100" alt="...">
+                @foreach (explode(',',$product->product_photo) as $key =>$pp)
+			    <div class="carousel-item @if($key == 0) active @endif">
+			      <img src="{{ asset('images/'. $pp) }}" class="d-block w-100" alt="...">
 			    </div>
-			    <div class="carousel-item">
-			      <img src="images/iphone1.jpg" class="d-block w-100" alt="...">
-			    </div>
+                @endforeach
 			  </div>
 			  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
 			    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -29,24 +28,34 @@
 		</div>
 		<div class="col-md-8 py-5">
 			<h3>{{ $product->name }}</h3>
-			<span class="badge bg-warning rounded-pill">New</span>
+			@if ($product->created_at->format('Y-m-d') >= date('Y-m-d', strtotime('-5days')))
+                                <span class="badge bg-warning rounded-pill">New</span>
+                            @endif
 			<span class="badge bg-danger rounded-pill">Best Seller</span>
-			<span class="badge bg-success rounded-pill">30%Off - Upto 20.1.2033</span>
-			<span class="badge bg-info rounded-pill">5items in stock</span><br><br>
+			@if ($product->discount_price)
+                    <span class="badge bg-success rounded-pill">
+                        {{ round(100 - ($product->discount_price / $product->price) * 100, 2) }} % off - Upto
+                        {{ $product->expire_date }}
+                    </span>
+                @endif
+                @foreach ($available_products as $available_product)
+                <span class="badge bg-primary rounded-pill">{{ $available_product->color->color . '/' . $available_product->storage . ' ( ' . $available_product->quantity }} )items in stock</span>
+                @endforeach
+            <br><br>
 
-			<label class="fw-bold"> Price :</label> {{ $product->price }} MMK <br>
-			<label class="fw-bold"> Discount Price :</label> {{ $product->price }} MMk <br><br>
+			<label class="fw-bold"> Price :</label><del> {{ $product->price }} MMk</del><br>
+			<label class="fw-bold"> Discount Price :</label> {{ $product->discount_price }} MMk <br><br>
 
 			<label class="fw-bold">Descriptions</label>
-			<p>{{ $product->description }}</p>
+			<p>{!! $product->description !!}</p>
 			<form>
 			<div class="row">
 			<div class="col-md-5">
 				<label class="fw-bold mb-2">Available Color </label>
 				<select class="form-control">
 					<option>--- Choose ---</option>
-					@foreach ($product as $category)
-					<option>{{ $category->category }}</option>
+					@foreach ($available_products as $product_color)
+					<option>{{ $product_color->color->color }}</option>
                     @endforeach
 				</select>
 			</div>
@@ -54,8 +63,8 @@
 				<label class="fw-bold mb-2">Available Memory</label>
 				<select class="form-control">
 					<option>--- Choose ---</option>
-					@foreach ($qcs as $storage)
-					<option>{{ $storage->storage }}</option>
+					@foreach ($available_products as $product_storage)
+					<option>{{ $product_storage->storage }}</option>
                     @endforeach
 				</select>
 			</div>
