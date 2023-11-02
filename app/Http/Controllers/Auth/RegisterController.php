@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Models\Category;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -89,5 +90,11 @@ class RegisterController extends Controller
             'type' => $data['type'],
             'photo' => $photo_name,
         ]);
+    }
+
+    public function showRegistrationForm()
+    {
+        $categories = Category::with('product')->get();
+        return view('auth.register', compact('categories'));
     }
 }

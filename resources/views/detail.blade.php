@@ -52,16 +52,16 @@
 			<div class="row">
 			<div class="col-md-5">
 				<label class="fw-bold mb-2">Available Color </label>
-				<select class="form-control">
+				<select class="form-control color">
 					<option>--- Choose ---</option>
 					@foreach ($available_products as $product_color)
-					<option>{{ $product_color->color->color }}</option>
+					<option value="{{ $product_color->color->id }}">{{ $product_color->color->color }}</option>
                     @endforeach
 				</select>
 			</div>
 			<div class="col-md-5">
 				<label class="fw-bold mb-2">Available Memory</label>
-				<select class="form-control">
+				<select class="form-control storage" disabled>
 					<option>--- Choose ---</option>
 					@foreach ($available_products as $product_storage)
 					<option>{{ $product_storage->storage }}</option>
@@ -70,10 +70,10 @@
 			</div>
 			<div class="col-md-2">
 				<label class="fw-bold mb-2">Quantity</label>
-				<input type="number" class="form-control" value="1" >
+				<input type="number" class="form-control qty" value="1" disabled>
 			</div>
 			</div>
-			<button class="btn btn-primary mt-4">Add to Cart</button>
+			<button class="btn btn-primary mt-4 atc_btn" disabled>Add to Cart</button>
 			</form>
 
 		</div>
@@ -100,4 +100,20 @@
 <div class="border container-fluid py-5 text-center bg-light mt-5">
 	<b>Copyright by Lobelia Students</b>
 </div>
+
+<script>
+    $('.color').change(function(){
+        var color_id = $(this).val();
+
+        $.ajax({
+            url:"{{ route('detail.storage') }}",
+            method:"GET",
+            data:{color_id,product_id},
+            success:function(result)
+            {
+                console.log(result);
+            }
+        })
+    })
+</script>
 @endsection

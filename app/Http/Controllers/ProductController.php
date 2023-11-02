@@ -9,10 +9,12 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::with('product')->get();
         $products = Product::all();
         Product::where('expire_date','<=',date('Y-m-d'))->update(['discount_price' => 0]);
         return view('index',compact('products','categories'));
+
+        // return $categories;
     }
 
     public function detail($id)

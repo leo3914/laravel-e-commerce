@@ -30,6 +30,7 @@ Route::get('/product-detail/{id}' ,[ProductController::class, 'detail'])->name('
 // users
 Route::middleware('auth', 'user-access:0')->group(function(){
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/detail-storage', [ProductController::class, 'detailStorage'])->name('detail.storage');
 });
 
 // admin delivery supplier
