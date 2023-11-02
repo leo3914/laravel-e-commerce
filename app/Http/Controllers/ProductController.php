@@ -77,4 +77,18 @@ class ProductController extends Controller
         $qcs->save();
         return back();
     }
+
+    public function detailStorage(Request $request)
+    {
+        $available_storage = Qcs::where('product_id',$request->product_id)->where('color_id',$request->color_id)->get();
+
+        return $available_storage;
+    }
+
+    public function detailQty(Request $request)
+    {
+        $available_qty = Qcs::where('product_id',$request->product_id)->where('color_id',$request->color_id)->where('storage',$request->storage)->first();
+
+        return $available_qty;
+    }
 }

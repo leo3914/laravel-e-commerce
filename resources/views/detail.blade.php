@@ -71,6 +71,7 @@
 			<div class="col-md-2">
 				<label class="fw-bold mb-2">Quantity</label>
 				<input type="number" class="form-control qty" value="1" disabled>
+                <span class="badge bg-danger qty_err"></span>
 			</div>
 			</div>
 			<button class="btn btn-primary mt-4 atc_btn" disabled>Add to Cart</button>
@@ -104,6 +105,7 @@
 <script>
     $('.color').change(function(){
         var color_id = $(this).val();
+        var product_id = "{{ $product->id }}"
 
         $.ajax({
             url:"{{ route('detail.storage') }}",
@@ -111,7 +113,47 @@
             data:{color_id,product_id},
             success:function(result)
             {
-                console.log(result);
+                // console.log(result);
+                var s = "";
+                s += "<option>---Choose---</option>";
+                for(let i = 0; i < result.length; i++)
+                {
+                    s += '<option value="'+result[i].storage+'">'+result[i].storage+'</option>';
+                }
+
+                $('.storage').html(s);
+                $('.storage').removeAttr('disabled')
+            }
+        })
+    })
+
+    $('.storage').change(function(){
+        $('.qty').removeAttr('disabled')
+        $('.atc_btn').removeAttr('disabled')
+    })
+
+    $('.qty').keyup(function(){
+        var quantity = $(this).val();
+        var storage = $('.storage').val();
+        var color_id = $('.color').val();
+        var product_id = {{ $product->id }};
+        // console.log(storage,color_id,product_id);
+
+        $.ajax({
+            url:"{{ route('detail.qty') }}",
+            method:"GET",
+            data:{storage,color_id,product_id},
+            success:function(result)
+            {
+                // console.log(result.quantity);
+                if(quantity > result.quantity)
+                {
+                    $('.qty_err').text("Sorry we have "+result.quantity+" items instock");
+                    $('.atc_btn').attr('disabled',true)
+                }else if(quantity == "" || quantity < 1)
+                {
+                    $('.atc_btn').attr('disabled')
+                }
             }
         })
     })
