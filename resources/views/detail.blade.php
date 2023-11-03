@@ -107,6 +107,9 @@
         var color_id = $(this).val();
         var product_id = "{{ $product->id }}"
 
+		$('.qty').val("1").attr('disabled',true);
+		// $('.qty_err').hide();
+
         $.ajax({
             url:"{{ route('detail.storage') }}",
             method:"GET",
@@ -149,11 +152,14 @@
                 if(quantity > result.quantity)
                 {
                     $('.qty_err').text("Sorry we have "+result.quantity+" items instock");
-                    $('.atc_btn').attr('disabled',true)
+                    $('.atc_btn').attr('disabled',true);
                 }else if(quantity == "" || quantity < 1)
                 {
-                    $('.atc_btn').attr('disabled')
-                }
+                    $('.atc_btn').attr('disabled',true)
+                }else{
+					$('.qty_err').text("");
+					$('.atc_btn').removeAttr('disabled');
+				}
             }
         })
     })
