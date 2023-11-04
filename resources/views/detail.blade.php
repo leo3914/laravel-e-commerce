@@ -48,11 +48,13 @@
 
 			<label class="fw-bold">Descriptions</label>
 			<p>{!! $product->description !!}</p>
-			<form>
+			<form action="{{  route('add.tocart',$product->id) }}" method="POST">
+			@csrf
 			<div class="row">
+			<input type="text" value="@if($product->discount_price) {{ $product->discount_price }} @else {{ $product->price }} @endif" name="buy_price">
 			<div class="col-md-5">
 				<label class="fw-bold mb-2">Available Color </label>
-				<select class="form-control color">
+				<select class="form-control color" name="color_id">
 					<option>--- Choose ---</option>
 					@foreach ($available_products as $product_color)
 					<option value="{{ $product_color->color->id }}">{{ $product_color->color->color }}</option>
@@ -61,7 +63,7 @@
 			</div>
 			<div class="col-md-5">
 				<label class="fw-bold mb-2">Available Memory</label>
-				<select class="form-control storage" disabled>
+				<select class="form-control storage" disabled name="storage">
 					<option>--- Choose ---</option>
 					@foreach ($available_products as $product_storage)
 					<option>{{ $product_storage->storage }}</option>
@@ -70,7 +72,7 @@
 			</div>
 			<div class="col-md-2">
 				<label class="fw-bold mb-2">Quantity</label>
-				<input type="number" class="form-control qty" value="1" disabled>
+				<input type="number" class="form-control qty" value="1" disabled name="quantity">
                 <span class="badge bg-danger qty_err"></span>
 			</div>
 			</div>

@@ -32,6 +32,8 @@ Route::middleware('auth', 'user-access:0')->group(function(){
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/detail-storage', [ProductController::class, 'detailStorage'])->name('detail.storage');
     Route::get('/detail-qty', [ProductController::class, 'detailQty'])->name('detail.qty');
+    Route::post('/add-toCart/{id}', [ProductController::class, 'addToCart'])->name('add.tocart');
+    Route::get('/cart', [ProductController::class, 'cart'])->name('cart');
 });
 
 // admin delivery supplier

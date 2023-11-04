@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\{Category, Color, Product, Qcs};
+use Laravel\Ui\Presets\React;
 
 class ProductController extends Controller
 {
@@ -90,5 +91,32 @@ class ProductController extends Controller
         $available_qty = Qcs::where('product_id',$request->product_id)->where('color_id',$request->color_id)->where('storage',$request->storage)->first();
 
         return $available_qty;
+    }
+
+    public function addToCart(Request $request , $id)
+    {
+        $available_product = Qcs::where('product_id',$id)->where('color_id',$request->color_id)->where('storage',$request->storage)->first();
+        $product = Product::find($id);
+        $color = Color::find($request->color_id);
+        $cart = session()->get('cart');
+
+        $cart[$available_product->id] = [
+            "product" => $product->name,
+            "product_photo" => $product->product_photo,
+            "color" => $color->color,
+            "storage" => $request->storage,
+            "quantity" => $request->quantity,
+            "buy_price" => $request->buy_price,
+        ];
+
+        session()->put('cart',$cart);
+
+        return redirect()->route('cart');
+    }
+
+    public function cart()
+    {
+        $categories = Category::with('product')->get();
+        return view('cart',compact('categories'));
     }
 }
